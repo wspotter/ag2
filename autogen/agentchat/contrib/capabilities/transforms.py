@@ -60,11 +60,18 @@ class MessageHistoryLimiter:
     It trims the conversation history by removing older messages, retaining only the most recent messages.
     """
 
-    def __init__(self, max_messages: Optional[int] = None, keep_first_message: bool = False, exclude_names: Optional[list[str]] = None):
+    def __init__(
+        self,
+        max_messages: Optional[int] = None,
+        keep_first_message: bool = False,
+        exclude_names: Optional[list[str]] = None,
+    ):
         """Args:
         max_messages Optional[int]: Maximum number of messages to keep in the context. Must be greater than 0 if not None.
         keep_first_message bool: Whether to keep the original first message in the conversation history.
             Defaults to False.
+        exclude_names Optional[list[str]]: List of message sender names to exclude from the message history.
+            Messages from these senders will be filtered out before applying the message limit. Defaults to None.
         """
         self._validate_max_messages(max_messages)
         self._max_messages = max_messages
@@ -87,11 +94,7 @@ class MessageHistoryLimiter:
 
         exclude_names = getattr(self, "_exclude_names", None)
 
-        if exclude_names:
-            filtered = [msg for msg in messages if msg.get("name") not in exclude_names]
-        else:
-            filtered = messages
-
+        filtered = [msg for msg in messages if msg.get("name") not in exclude_names] if exclude_names else messages
 
         if self._max_messages is None or len(filtered) <= self._max_messages:
             return filtered
