@@ -1,0 +1,62 @@
+# Autonomous Agent System Configuration
+
+system:
+  name: "Autonomous Agent System"
+  version: "1.0.0"
+  log_level: "INFO"
+  max_concurrent_tasks: 5
+  task_timeout: 3600  # 1 hour in seconds
+  health_check_interval: 30  # seconds
+
+# LLM Configuration
+llm_config:
+  model: "gpt-4o-mini"
+  temperature: 0.7
+  max_tokens: 2000
+  timeout: 120
+  # Add your API configuration here
+  # api_key: "your-api-key"
+  # base_url: "https://api.openai.com/v1"
+
+# Agent Configuration
+agents:
+  coordinator:
+    enabled: true
+    max_rounds: 20
+    system_message_override: null
+  
+  researcher:
+    enabled: true
+    max_rounds: 15
+    system_message_override: null
+  
+  analyst:
+    enabled: true
+    max_rounds: 15
+    system_message_override: null
+  
+  executor:
+    enabled: true
+    max_rounds: 10
+    system_message_override: null
+
+# Monitoring and Performance
+monitoring:
+  metrics_interval: 300  # 5 minutes
+  performance_logging: true
+  health_checks: true
+  log_file: "autonomous_agent.log"
+
+# Task Management
+tasks:
+  default_priority: "MEDIUM"
+  auto_generate_tasks: true
+  max_queue_size: 100
+  retry_failed_tasks: true
+  max_retries: 3
+
+# Security (if needed)
+security:
+  enable_human_oversight: true
+  require_approval_for_critical: true
+  audit_logging: true
